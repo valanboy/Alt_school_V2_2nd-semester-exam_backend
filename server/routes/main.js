@@ -19,7 +19,7 @@ router.get('/', async(req, res)=>{
     }
 
     catch(error){
-        econsole.log(error);
+        console.log(error);
     }
 })
 
