@@ -1,53 +1,149 @@
-const express = require('express');
-const { get } = require('mongoose');
+const express = require("express");
+const { get } = require("mongoose");
 const router = express.Router();
-const post = require('../models/post')
+const post = require("../models/post");
 
 // GET
 // HOME
 
 //routes
-router.get('/', async(req, res)=>{
+router.get("/", async (req, res) => {
+  try {
     const locals = {
-        title : "Gil's BloggingAPI",
-        description : "a simple blog app with mongodb, nodejs, express and ejs"
-    }
+      title: "Gil's BloggingAPI",
+      description: "a simple blog app with mongodb, nodejs, express and ejs",
+    };
 
-    try{
-        const data = await post.find();
-        res.render("index",{locals, data});
-    }
+    let perPage = 20;
+    let page = req.query.page || 1;
+    
+    const data = await post.aggregate([{ $sort: { createdAt: -1 } }])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec();
 
-    catch(error){
-        console.log(error);
-    }
-})
+    const count = await post.countDocuments();
+    const nextPage = parseInt(page) + 1;
+    const hasNextpage = nextPage <= Math.ceil(count / perPage);
 
+    res.render("index", {
+      locals,
+      data,
+      current: page,
+      nextPage: hasNextpage ? nextPage : null
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
+router.get("/about", (req, res) => {
+  res.render("about");
+});
 
-router.get('/about', (req, res)=>{
-    res.render("about");
-})
+// GET
+// post
+router.get("/post/:id", async (req, res) => {
+      try{
 
+        const locals = {
+            title: "Gil's BloggingAPI",
+            description: "a simple blog app with mongodb, nodejs, express and ejs",
+          };
+      
+          let slug = req.params.id; 
 
-
+      const data = await post.findById({_id: slug})
+      res.render('post', {
+        locals,
+        data
+      });
+     
+  } catch (error) {
+    console.log(error);
+  }
+  });
 
 // function insertPostData() {
-//     post.insertMany([
-//         {
-//         title: "bullo",
-//         body: "dont know what this is"
+//   post.insertMany([
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
 //     },
-//         {
-//         title: "bullo",
-//         body: "dont know what this is"
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
 //     },
-//         {
-//         title: "bullo",
-//         body: "dont know what this is"
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
 //     },
-//     ])
-// };
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//     {
+//       title: "bullo",
+//       body: "dont know what this is",
+//     },
+//   ]);
+// }
 
 // insertPostData();
 
