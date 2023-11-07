@@ -23,18 +23,32 @@ router.get('/', async(req, res)=>{
     }
 })
 
-// function insertPostData() {
-//     post.insertMany({
-//         title: "building a blog",
-//         body: "hi men of war"
-//     }
-//     )
-// }
 
-// insertPostData();
 
 router.get('/about', (req, res)=>{
     res.render("about");
 })
+
+
+
+
+// function insertPostData() {
+//     post.insertMany([
+//         {
+//         title: "bullo",
+//         body: "dont know what this is"
+//     },
+//         {
+//         title: "bullo",
+//         body: "dont know what this is"
+//     },
+//         {
+//         title: "bullo",
+//         body: "dont know what this is"
+//     },
+//     ])
+// };
+
+// insertPostData();
 
 module.exports = router;
