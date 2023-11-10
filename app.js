@@ -13,6 +13,9 @@ connectDB();
 
 app.use(express.static('public'));
 
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
 //template engine
 app.use(expressLayout);
 app.set('layout', './layouts/main');
