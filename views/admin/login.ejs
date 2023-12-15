@@ -1,4 +1,7 @@
-<h3>Sign in</h3>
+<div class="container">
+    <input type="checkbox" id="checked">
+    <div class="signin">
+    <h3>Sign in</h3>
 
 <form action="/admin" method="post">
     
@@ -9,10 +12,13 @@
 <input type="password" placeholder="enter password" name="password">
 
 <input type="submit" value="login" class="btn">
+<div class="signup"><span class="signup">don't have account? <label for="checked">Create account</label></span></div>
 
 </form>
+</div>
 
 
+<div class="register">
 <h3>Register</h3>
 
 <form action="/register" method="post">
@@ -33,5 +39,8 @@
     <input type="password" placeholder="enter password" name="password">
     
     <input type="submit" value="register" class="btn">
+    <div class="signup"><span class="signup">dalready have an account? <label for="checked">log in</label></span></div>
     
     </form>
+</div>
+</div>

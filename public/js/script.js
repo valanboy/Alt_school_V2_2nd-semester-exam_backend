@@ -4,6 +4,7 @@ const allButtons = document.querySelectorAll('.searchBtn');
 const searchBar = document.querySelector('.searchBar');
 const searchInput = document.getElementById('searchInput');
 const searchClose = document.getElementById('searchClose');
+const btn = document.getElementsByClassName('btn')
 
 for (let i = 0; i < allButtons.length; i++) {
     allButtons[i].addEventListener('click', function() {
@@ -18,7 +19,8 @@ for (let i = 0; i < allButtons.length; i++) {
 searchClose.addEventListener('click', function() {
     searchBar.style.visibility = 'hidden';
     searchBar.classList.remove('open');
-    this.setAttribute('aria-exppanded', 'false')
+    this.setAttribute('aria-exppanded', 'false');
+    // console.log("button clicked!");
 })
 
 })

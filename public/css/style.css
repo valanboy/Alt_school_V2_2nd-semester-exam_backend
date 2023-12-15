@@ -21,6 +21,15 @@ h3 {
   font-size: var(--font-size-xl);
 }
 
+#logout{
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  color: white;
+padding:5px;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -44,6 +53,13 @@ textarea {
   margin: 4px 2px;
   text-decoration: none;
   cursor: pointer;
+  letter-spacing: 1.4px;
+  transition: 0.4s;
+  border-radius: 8px;
+}
+
+.btn:hover{
+  background: #7e7e7e;
 }
 
 .btn-delete {
@@ -115,6 +131,8 @@ img {
   display: flex;
   justify-content: end;
   grid-area: button;
+  padding: 3px;
+  height: 40px;
 }
 
 .header__button button {
@@ -130,7 +148,10 @@ img {
   font-weight: 600;
   color: var(--black);
 }
-
+.adjust{
+  background-color: var(--red);
+border-radius: 8px;
+}
 .header__button button:hover {
   border: 2px solid var(--black);
 }
@@ -329,4 +350,46 @@ img {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+}
+
+/* .header__button{
+  background-color: var(--red);
+  border-radius: 17px;
+  padding: 5px 8px ;
+} */
+/*  */
+
+#flash{
+  background-color: rgb(186, 255, 232);
+  margin-bottom: 3rem;
+  padding:0.9rem;
+}
+
+.signup{
+  text-align: center;
+}
+
+.signup label{
+  color: green;
+}
+
+.signup label:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.register{
+  display: none;
+}
+
+#checked:checked ~ .register{
+  display:block;
+}
+
+#checked:checked ~ .signin{
+  display: none;
+}
+
+#checked{
+  display:none;
 }

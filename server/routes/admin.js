@@ -6,8 +6,6 @@ const bcryptjs = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
-
-
 const adminLayout = "../views/layouts/admin";
 const jwtSecret = process.env.jwtSecret;
 
@@ -44,7 +42,7 @@ router.get('/admin', async(req, res)=>{
             title: "Admin",
             description: " simple blog api with nodejs, express, ejs and mongoDB"
         }
-    res.render('admin/login', {locals, layout: adminLayout})
+    res.render('admin/login', {locals})
 
     } catch (error) {
         console.log(error)
@@ -62,7 +60,7 @@ router.post('/admin', async(req, res)=>{
       const user = await User.findOne({email});
 
       if(!user) {
-        return res.status(401).json( {message: "invalid crediagtials"});
+        return res.status(401).json( {message: "invalid credentials"});
       }
 
       const ispasswordvalid = await bcryptjs.compare(password, user.password);
@@ -162,22 +160,24 @@ Admin-create new Post
 router.get('/edit-post/:id', authMiddleware ,async(req, res)=>{
 
   try{
-  const locals = {  title: "Gil's BloggingAPI",
+  const locals = {  title: "Edit post",
     description: "a simple blog app with mongodb, nodejs, express and ejs",
   }
 
-const data = await post.findOne({_id: req.params.id});
+const data = await post.findOne({ _id: req.params.id});
 res.render('admin/edit-post', {
   locals,
   data,
   layout: adminLayout
+,  message: req.flash('message')
 });
+
   }
   
     
  catch (error) {
     console.log(error)
-    res.send('error')
+    res.render('error');
   }})
 
 /*
@@ -192,7 +192,8 @@ await post.findByIdAndUpdate(req.params.id,{
   title: req.body.title, 
   body: req.body.body, 
   updatedAt: Date.now()})
-res.redirect('/edit-post/${req.params.id}');
+  req.flash('message', 'updated successfully!')
+res.redirect(`/edit-post/${req.params.id}`);
   }
   
     
@@ -212,19 +213,64 @@ router.post('/register', async(req, res)=>{
 
     try {
       const user = await User.create({firstname, lastname, username, email, password: hashedpassword});
-      res.status(201).json({message: "user created", user});
+      // res.status(201).json({message: "user created", user});
+      res.redirect('admin');
     } catch (error) {
       if(error.code === 11000){
         res.status(409).json({message: 'user already in use'})
       }
-      res.status(500).json({message:"internal server error"})
+      // res.status(500).json({message:"internal server error"})
     }
       
     }
      catch (error) {
         console.log(error)
     }
-})
+});
 
+
+/*
+PUT
+Admin- edit Post
+*/
+
+router.delete('/delete-post/:id', authMiddleware ,async(req, res)=>{
+
+  try{
+await post.deleteOne({_id: req.params.id});
+res.redirect('/dashboard');
+  }
+  
+ catch (error) {
+    console.log(error)
+    res.send(error);
+  }});
+  
+
+
+
+/*
+GET- Admin logout
+*/
+router.get('/logout', (req, res)=>{
+res.clearCookie('token');
+res.redirect('/');
+} )
+
+/*
+GET- error
+*/
+
+router.get('*',async(req, res)=>{
+
+  try{
+
+res.render('error');
+  }
+  
+    
+ catch (error) {
+    console.log(error)
+  }})
 
 module.exports = router;
