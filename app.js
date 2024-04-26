@@ -10,7 +10,7 @@ const flash = require('connect-flash')
 
 
 const app = express();
-const PORT = 3000 || process.port.PORT
+const PORT = 5000 || process.port.PORT
 
 //connect to db
 connectDB();
